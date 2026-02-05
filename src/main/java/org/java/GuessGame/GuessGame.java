@@ -123,9 +123,10 @@ class GuessGame {
           - 0 - Tai pirmasis mygtukas. Čia arba 'Išnaujo', arba 'Pakartoti'.
           - 1 - Tai antrasis mygtukas. Čia tik 'Užbaigti'.
         */
-        return JOptionPane.showOptionDialog(null, msg, titlemsg,
+        int selection = JOptionPane.showOptionDialog(null, msg, titlemsg,
                 JOptionPane.DEFAULT_OPTION, msgType,
                 null, options, options[0]);
+        return selection;
     }
 
     public static int getNumberInterface() {
