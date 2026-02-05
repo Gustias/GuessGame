@@ -1,3 +1,5 @@
+## GuessGame
+
 My first-ever Java project, made specifically for a university assignment.
 
 It's a simple Java number-guessing game I built as an early learning project using Swing `JOptionPane` dialogs. 
