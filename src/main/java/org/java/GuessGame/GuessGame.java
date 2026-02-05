@@ -39,9 +39,7 @@ class GuessGame {
 
         // ŽAIDIMAS
         while (true) {
-            if (!repeat) { // will have to set repeat to true if the player fails and wants to repeat
-                randomInt = randomNumGen(maxGuess);
-            }
+            if (!repeat) randomInt = randomNumGen(maxGuess);
             // Sukuria žinutę input langeliui, jeigu reikia hint'o, prideda ir jį
             if (shouldGiveHint) { // set shouldGiveHint to true if players repeats after a fail attempt
                 String hint = giveHint(randomInt, lastGuess);
@@ -49,15 +47,11 @@ class GuessGame {
                         "skaičius yra " + hint + " už " + lastGuess + "!";
                 shouldGiveHint = false;
             }
-            else {
-                askQuestion = "Spėkite skaičių kuris yra nuo 0 iki " + maxGuess + "!";
-            }
+            else askQuestion = "Spėkite skaičių kuris yra nuo 0 iki " + maxGuess + "!";
             // Sukuria input langelį, kur klausia skaičiaus
             gameInput = JOptionPane.showInputDialog(askQuestion);
             // Jei langelis buvo tuščias arba paspaustas Cancel mygtukas (null)
-            if (gameInput == null) {
-                System.exit(0);
-            }
+            if (gameInput == null) System.exit(0);
             // Kitaip tikriname ar input'as buvo int tipo
             if (isInteger(gameInput)) {
                 lastGuess = Integer.parseInt(gameInput);
@@ -65,7 +59,7 @@ class GuessGame {
                 // Žinutės priežasčių nustatymai
 
                 if (lastGuess == randomInt) askReason = "success";                              // Atspėjo
-                else if (lastGuess > maxGuess || lastGuess < 0) askReason = "incorrectInput";      // Neteisinga įvestis
+                else if (lastGuess > maxGuess || lastGuess < 0) askReason = "incorrectInput";   // Neteisinga įvestis
                 else askReason = "fail";                                                        // Atspėjo ne tą skaičių, bet ribose
 
                 // Klausiam klausimo kas toliau
@@ -106,10 +100,7 @@ class GuessGame {
      * @return Užuomena
      */
     public static String giveHint(int randomInt, int lastGuess) {
-        String hint;
-        if (randomInt > lastGuess) hint = "didesnis";
-        else hint = "mažesnis";
-        return hint;
+        return randomInt > lastGuess ? "didesnis" : "mažesnis";
     }
 
     /**
@@ -147,10 +138,9 @@ class GuessGame {
           - 0 - Tai pirmasis mygtukas. Čia arba 'Išnaujo', arba 'Pakartoti'.
           - 1 - Tai antrasis mygtukas. Čia tik 'Užbaigti'.
         */
-        int selection = JOptionPane.showOptionDialog(null, msg, titlemsg,
+        return JOptionPane.showOptionDialog(null, msg, titlemsg,
                 JOptionPane.DEFAULT_OPTION, msgType,
                 null, options, options[0]);
-        return selection;
     }
 
     /**
@@ -159,24 +149,18 @@ class GuessGame {
      * @return Maksimali reikšmė
      */
     public static int getNumberInterface() {
-
         String guessintInput = "";
         while (true) {
             guessintInput = JOptionPane.showInputDialog("Įveskite sveikąjį skaičių, didesnį už 0, kurį spėsite:");
-            if (guessintInput == null) {
-                System.exit(0);
-            }
-            else if (isInteger(guessintInput) && Integer.parseInt(guessintInput) > 0) {
-                break;
-            }
+            if (guessintInput == null) System.exit(0);
+            else if (isInteger(guessintInput) && Integer.parseInt(guessintInput) > 0) break;
         }
         return Integer.parseInt(guessintInput);
     }
 
     // Pagridinė, paleidimo funkcija.
     public static void main(String[] args) {
-        int secretnum = getNumberInterface();
-        playGame(secretnum);
+        playGame(getNumberInterface());
     }
 
     /**
