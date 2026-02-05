@@ -2,23 +2,32 @@
 import javax.swing.JOptionPane;
 
 class GuessGame {
+
+    /**
+     * Žaidimo pagrindinė funkcija, kuri yra atsakinga už jo visą veiklą
+     * Pats žaidimas yra skaičiaus spėjimas tarp intervalo [0; x], kur žaidėjas
+     * turi atspėti atsitiktinai išrinktą sveikajį skaičių iš šio intervalo.
+     * @param maxGuess Intervalo [0; x] maksimali reikšmė
+     */
     public static void playGame(int maxGuess) {
         /*
            // Atsinešti su funkcija parametrai
            maxGuess - tas maksimalus skaičius iki kurio turi spėti.
+
+           // Funkcijos vietiniai kintamieji
            shouldGiveHint - ar duoti užuomeną ar ne (true - duoti, false - neduoti)
            lastGuess - paskutinis spėjimas
            repeat - Ar žaidėjas bando išnaujo spėti tą patį skaičių (true - bando, false - nebando)
            randomInt - Skaičius kurį turės atspėti, pradžioje jis nulis, bet po to tampa į atsitiktinį skaičių.
-
-           // Funkcijos vietiniai kintamieji
            gameInput - žaidėjo įvestis (gali būti skaičius, gali būti kažkas kito)
+           choiceInt - Pasirinkto mygtuko per input'ą ID, 0 - žaidimas tęsiasi, 1 - žaidimas atšaukiamas
            askReason - String tipo kintamasis, kuris nurodo klausiamojo lango (askForRepeat) klausimą.
              - Yra trys klausimų tipai: success, fail, incorrectInput.
            askQuestion - String tipo kintamasis, kuris nurodo klausimą kuris klausiamas žaidėjui.
            hint - Užuomena, kuri pasako žaidėjui ar skaičius kurį turi spėti yra didesnis, ar mažesnis už spėtą.
         */
-        // V2 without recurssions (while loop is running the game)
+
+        // KINTAMIEJI
         boolean repeat = false;
         boolean shouldGiveHint = false;
         String gameInput;
@@ -28,6 +37,7 @@ class GuessGame {
         String askQuestion;
         String askReason;
 
+        // ŽAIDIMAS
         while (true) {
             if (!repeat) { // will have to set repeat to true if the player fails and wants to repeat
                 randomInt = randomNumGen(maxGuess);
@@ -88,6 +98,13 @@ class GuessGame {
         }
     }
 
+    /**
+     * Sukuria užuomeną pagal tai, ar spėjamas skaičius buvo mažesnis, ar didesnis
+     * už paslėptąjį skaičių.
+     * @param randomInt Paslėptoji reikšmė, skaičius kurį turėjo atspėti
+     * @param lastGuess Paskutinis žaidėjo spėjimas
+     * @return Užuomena
+     */
     public static String giveHint(int randomInt, int lastGuess) {
         String hint;
         if (randomInt > lastGuess) hint = "didesnis";
@@ -95,7 +112,14 @@ class GuessGame {
         return hint;
     }
 
-    public static int askForRepeat(String reason, int randomInt) {
+    /**
+     * Sukuria lentelę kurioje klausia žaidėjo, ar jis nori žaidimą pakartotį (jei neatspėjo skaičiaus arba
+     * įvedė blogą įvestį), ar sužaisti išnaujo (jei laimėjo/atspėjo skaičių). Taip pat gali pasirinkti užbaigti žaidimą.
+     * @param reason Priežastis dėl kurios klausia
+     * @param correctGuess Atspėtasis skaičius
+     * @return Funkcija grąžina arba 0 arba 1: 0 - tęsiasi žaidimas, 1 - žaidimas užbaigiamas.
+     */
+    public static int askForRepeat(String reason, int correctGuess) {
         Object[] options = { "Išnaujo", "Užbaigti" };
         String titlemsg = ""; String msg = "";
         int msgType = 0; // Pakeičia kokia informacinę ikonelę rodo prie žinutės. 0 - klaida, 1 - info, 2 - pavojus, 3 - klausimas
@@ -114,7 +138,7 @@ class GuessGame {
             }
             case "success" -> {
                 titlemsg = "Teisingai!";
-                msg = "Pataikėte tiesiai į šimtuką! Skaičius buvo " + randomInt +
+                msg = "Pataikėte tiesiai į šimtuką! Skaičius buvo " + correctGuess +
                         "!\nJeigu norite sužaisti dar kartą, paspauskite ant 'Išnaujo' mygtuko!";
                 msgType = 1;
             }
@@ -129,6 +153,11 @@ class GuessGame {
         return selection;
     }
 
+    /**
+     * Prašo žaidėjo įvesti maksimalią reikšmę (>0), nuo kurios bus sukurtas intervalas [0; x],
+     * kur x - maksimali reikšmė, tarp jos bus išrinktas skaičius kurį reiks atspėti.
+     * @return Maksimali reikšmė
+     */
     public static int getNumberInterface() {
 
         String guessintInput = "";
