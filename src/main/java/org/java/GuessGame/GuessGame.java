@@ -1,7 +1,5 @@
 package org.java.GuessGame;
 
-import javax.swing.JOptionPane;
-
 class GuessGame {
     public static void main(String[] args) {
         PanelManager panels = new PanelManager();
@@ -126,6 +124,7 @@ class GuessGame {
             return false;
         }
     }
+
     /**
      * Grąžina pseudo-atsitiktiniai sugeneruota skaičių, nuo 0 iki max reikšmių.
      * min reikšmė yra 0, nes taip pritaikyta žaidimui.
