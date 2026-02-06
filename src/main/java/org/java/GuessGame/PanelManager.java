@@ -5,7 +5,6 @@ import javax.swing.JOptionPane;
 public class PanelManager {
 
     // OBJEKTAI
-    static GuessGame mainMethods = new GuessGame();
 
     /**
      * Sukuria lentelę kurioje klausia žaidėjo, ar jis nori žaidimą pakartotį (jei neatspėjo skaičiaus arba
@@ -53,7 +52,7 @@ public class PanelManager {
         while (true) {
             guessintInput = JOptionPane.showInputDialog("Įveskite sveikąjį skaičių, didesnį už 0, iki kurio spėsite:");
             if (guessintInput == null) System.exit(0);
-            else if (mainMethods.isInteger(guessintInput) && Integer.parseInt(guessintInput) > 0) break;
+            else if (GuessGame.isInteger(guessintInput) && Integer.parseInt(guessintInput) > 0) break;
         }
         return Integer.parseInt(guessintInput);
     }

@@ -2,8 +2,7 @@ package org.java.GuessGame;
 
 class GuessGame {
     public static void main(String[] args) {
-        PanelManager panels = new PanelManager();
-        playGame(panels.getNumberInterface());
+        playGame(PanelManager.getNumberInterface());
     }
 
     /**
@@ -40,9 +39,6 @@ class GuessGame {
         String askQuestion;
         String askReason;
 
-        // OBJEKTAI
-        PanelManager panels = new PanelManager();
-
         // ŽAIDIMAS
         while (true) {
             if (!repeat) randomInt = randomNumGen(maxGuess);
@@ -55,7 +51,7 @@ class GuessGame {
             }
             else askQuestion = "Spėkite skaičių kuris yra nuo 0 iki " + maxGuess + "!";
             // Sukuria input langelį, kur klausia skaičiaus
-            gameInput = panels.askForNumber(askQuestion);
+            gameInput = PanelManager.askForNumber(askQuestion);
             // Jei langelis buvo tuščias arba paspaustas Cancel mygtukas (null)
             if (gameInput == null) System.exit(0);
             // Kitaip tikriname ar input'as buvo int tipo
@@ -69,18 +65,18 @@ class GuessGame {
                 else askReason = "fail";                                                        // Atspėjo ne tą skaičių, bet ribose
 
                 // Klausiam klausimo kas toliau
-                choiceInt = panels.askForRepeat(askReason, randomInt);
+                choiceInt = PanelManager.askForRepeat(askReason, randomInt);
 
             }
             else {
                 // Blogas input'as, nes input'as ne int'as, siūlome išnaujo sužaisti
                 askReason = "incorrectInput";
-                choiceInt = panels.askForRepeat(askReason, randomInt);
+                choiceInt = PanelManager.askForRepeat(askReason, randomInt);
             }
             // Jeigu pasirinko 0 - kartojamas žaidimas, 1 - užbaigiam
             if (choiceInt == 1) {
                 // Žaidimo uždarymas
-                panels.thankForGame();
+                PanelManager.thankForGame();
                 System.exit(0);
             }
             else {
@@ -89,7 +85,7 @@ class GuessGame {
                     repeat = true;
                 }
                 else {
-                    maxGuess = panels.getNumberInterface();
+                    maxGuess = PanelManager.getNumberInterface();
                     repeat = false;
                     lastGuess = 0;
                 }
