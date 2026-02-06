@@ -1,7 +1,12 @@
+package org.java.GuessGame;
 
 import javax.swing.JOptionPane;
 
 class GuessGame {
+    public static void main(String[] args) {
+        PanelManager panels = new PanelManager();
+        playGame(panels.getNumberInterface());
+    }
 
     /**
      * Žaidimo pagrindinė funkcija, kuri yra atsakinga už jo visą veiklą
@@ -37,6 +42,9 @@ class GuessGame {
         String askQuestion;
         String askReason;
 
+        // OBJEKTAI
+        PanelManager panels = new PanelManager();
+
         // ŽAIDIMAS
         while (true) {
             if (!repeat) randomInt = randomNumGen(maxGuess);
@@ -49,7 +57,7 @@ class GuessGame {
             }
             else askQuestion = "Spėkite skaičių kuris yra nuo 0 iki " + maxGuess + "!";
             // Sukuria input langelį, kur klausia skaičiaus
-            gameInput = JOptionPane.showInputDialog(askQuestion);
+            gameInput = panels.askForNumber(askQuestion);
             // Jei langelis buvo tuščias arba paspaustas Cancel mygtukas (null)
             if (gameInput == null) System.exit(0);
             // Kitaip tikriname ar input'as buvo int tipo
@@ -63,19 +71,18 @@ class GuessGame {
                 else askReason = "fail";                                                        // Atspėjo ne tą skaičių, bet ribose
 
                 // Klausiam klausimo kas toliau
-                choiceInt = askForRepeat(askReason, randomInt);
+                choiceInt = panels.askForRepeat(askReason, randomInt);
 
             }
             else {
                 // Blogas input'as, nes input'as ne int'as, siūlome išnaujo sužaisti
                 askReason = "incorrectInput";
-                choiceInt = askForRepeat(askReason, randomInt);
+                choiceInt = panels.askForRepeat(askReason, randomInt);
             }
             // Jeigu pasirinko 0 - kartojamas žaidimas, 1 - užbaigiam
             if (choiceInt == 1) {
                 // Žaidimo uždarymas
-                JOptionPane.showInternalMessageDialog(null, "Ačiū, kad žaidėte!",
-                        "Žaidimas užbaigiamas!", JOptionPane.INFORMATION_MESSAGE);
+                panels.thankForGame();
                 System.exit(0);
             }
             else {
@@ -84,7 +91,7 @@ class GuessGame {
                     repeat = true;
                 }
                 else {
-                    maxGuess = getNumberInterface();
+                    maxGuess = panels.getNumberInterface();
                     repeat = false;
                     lastGuess = 0;
                 }
@@ -101,66 +108,6 @@ class GuessGame {
      */
     public static String giveHint(int randomInt, int lastGuess) {
         return randomInt > lastGuess ? "didesnis" : "mažesnis";
-    }
-
-    /**
-     * Sukuria lentelę kurioje klausia žaidėjo, ar jis nori žaidimą pakartotį (jei neatspėjo skaičiaus arba
-     * įvedė blogą įvestį), ar sužaisti išnaujo (jei laimėjo/atspėjo skaičių). Taip pat gali pasirinkti užbaigti žaidimą.
-     * @param reason Priežastis dėl kurios klausia
-     * @param correctGuess Atspėtasis skaičius
-     * @return Funkcija grąžina arba 0 arba 1: 0 - tęsiasi žaidimas, 1 - žaidimas užbaigiamas.
-     */
-    public static int askForRepeat(String reason, int correctGuess) {
-        Object[] options = { "Išnaujo", "Užbaigti" };
-        String titlemsg = ""; String msg = "";
-        int msgType = 0; // Pakeičia kokia informacinę ikonelę rodo prie žinutės. 0 - klaida, 1 - info, 2 - pavojus, 3 - klausimas
-        switch (reason) {
-            case "fail" -> {
-                options[0] = "Pakartoti";
-                titlemsg = "Suklydote!";
-                msg = "Paspauskite 'Pakartoti', kad pabandyti dar kartą spėti su tuo pačiu skaičiumi.";
-            }
-            case "incorrectInput" -> {
-                options[0] = "Pakartoti";
-                titlemsg = "Neteisinga įvestis!";
-                msg = "Įvedėte neteisingą įvestį. Įvestis turi būti sveikasis skaičius, kuris yra\n" +
-                        "didesnis už 0! Paspauskite 'Pakartoti', jei norite išbandyti spėti pernaujo.";
-                msgType = 2;
-            }
-            case "success" -> {
-                titlemsg = "Teisingai!";
-                msg = "Pataikėte tiesiai į šimtuką! Skaičius buvo " + correctGuess +
-                        "!\nJeigu norite sužaisti dar kartą, paspauskite ant 'Išnaujo' mygtuko!";
-                msgType = 1;
-            }
-        }
-        /* selection - tai kintamasis int tipo, kuris nurodo naudotojo pasirinkimą.
-          - 0 - Tai pirmasis mygtukas. Čia arba 'Išnaujo', arba 'Pakartoti'.
-          - 1 - Tai antrasis mygtukas. Čia tik 'Užbaigti'.
-        */
-        return JOptionPane.showOptionDialog(null, msg, titlemsg,
-                JOptionPane.DEFAULT_OPTION, msgType,
-                null, options, options[0]);
-    }
-
-    /**
-     * Prašo žaidėjo įvesti maksimalią reikšmę (>0), nuo kurios bus sukurtas intervalas [0; x],
-     * kur x - maksimali reikšmė, tarp jos bus išrinktas skaičius kurį reiks atspėti.
-     * @return Maksimali reikšmė
-     */
-    public static int getNumberInterface() {
-        String guessintInput = "";
-        while (true) {
-            guessintInput = JOptionPane.showInputDialog("Įveskite sveikąjį skaičių, didesnį už 0, kurį spėsite:");
-            if (guessintInput == null) System.exit(0);
-            else if (isInteger(guessintInput) && Integer.parseInt(guessintInput) > 0) break;
-        }
-        return Integer.parseInt(guessintInput);
-    }
-
-    // Pagridinė, paleidimo funkcija.
-    public static void main(String[] args) {
-        playGame(getNumberInterface());
     }
 
     /**
