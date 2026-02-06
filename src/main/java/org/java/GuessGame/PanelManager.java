@@ -38,10 +38,6 @@ public class PanelManager {
                 msgType = 1;
             }
         }
-        /* selection - tai kintamasis int tipo, kuris nurodo naudotojo pasirinkimą.
-          - 0 - Tai pirmasis mygtukas. Čia arba 'Išnaujo', arba 'Pakartoti'.
-          - 1 - Tai antrasis mygtukas. Čia tik 'Užbaigti'.
-        */
         return JOptionPane.showOptionDialog(null, msg, titlemsg,
                 JOptionPane.DEFAULT_OPTION, msgType,
                 null, options, options[0]);
