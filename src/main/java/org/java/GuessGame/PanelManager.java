@@ -62,11 +62,19 @@ public class PanelManager {
         return Integer.parseInt(guessintInput);
     }
 
+    /**
+     * Sukuria lentelę kurioje padėkoja žaidėjui už žaidimą.
+     */
     public static void thankForGame() {
         JOptionPane.showInternalMessageDialog(null, "Ačiū, kad žaidėte!",
                 "Žaidimas užbaigiamas!", JOptionPane.INFORMATION_MESSAGE);
     }
 
+    /**
+     * Sukuria lentelę kurioje prašo žaidėjo įvesti skaičių.
+     * @param askQuestion Lentelės klausimas. String.
+     * @return Grąžina žaidėjo įvestį, String formatu.
+     */
     public static String askForNumber(String askQuestion) {
         return JOptionPane.showInputDialog(askQuestion);
     }
