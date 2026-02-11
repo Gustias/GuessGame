@@ -30,14 +30,9 @@ class GuessGame {
         */
 
         // KINTAMIEJI
-        boolean repeat = false;
-        boolean shouldGiveHint = false;
-        String gameInput;
-        int lastGuess = 0;
-        int randomInt = 0;
-        int choiceInt;
-        String askQuestion;
-        String askReason;
+        boolean repeat = false, shouldGiveHint = false;
+        int lastGuess = 0, randomInt = 0, choiceInt;
+        String askQuestion, askReason, gameInput;
 
         // ŽAIDIMAS
         while (true) {
